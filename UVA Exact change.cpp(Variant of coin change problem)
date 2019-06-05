@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define ff(i,n) for(i=0;i<n;i++)
+#define gg(n) cin>>n;
+#define hh(n) cout<<n<<endl;
+#define t top
+#define p push
+#define pb push_back
+#define mp make_pair
+ll maxi(ll a,ll b)
+{
+     if(a>b) return a;
+     else    return b;
+}
+ll bg=1234567890123;
+int main()
+{
+  ll t;
+  cin>>t;
+  while(t--)
+  {
+     ll m,s,i,j,k,price;
+     cin>>price>>m;
+     vector<ll >vec; 
+     for(i=0;i<m;i++)
+     {
+          ll x;
+          cin>>x;
+          vec.pb(x);
+     }
+     s=30000;
+     ll dp[s+1];
+     for(i=0;i<=s;i++)
+          dp[i]=bg;
+     dp[0]=0;
+     for(k=0;k<m;k++)
+     {
+       ll check[s+1]={0};
+       ll temp[s+1];
+       for(i=0;i<=s;i++)
+            temp[i]=bg;
+       for(i=0;i<=s;i++)
+         if((i+vec[k]<=s)&&(dp[i]!=bg))        
+           {
+                  temp[i+vec[k]]=min(temp[i+vec[k]],1+dp[i]);
+           }
+       for(i=0;i<=s;i++)
+            dp[i]=min(dp[i],temp[i]);
+     }
+     ll ans,index;
+     for(j=price;j<=s;j++)
+            if(dp[j]!=bg)
+              {
+                         ans=dp[j];
+                         index=j;
+                         break;
+                                       
+              }
+     printf("%lld %lld\n",index,ans);
+  }return 0;
+}
