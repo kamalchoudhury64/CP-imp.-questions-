@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+ll bg=1234567890123;
+#define ff(i,n) for(i=0;i<n;i++)
+#define gg1(n1) cin>>n1;
+#define gg(n1,n2) cin>>n1>>n2;
+#define gg3(n1,n2,n3) cin>>n1>>n2>>n3;
+#define hh(n) cout<<n<<endl;
+#define t top
+#define p push
+#define pb push_back
+#define mp make_pair
+ll maxi(ll a,ll b)
+{
+     if(a>b) return a;
+     else    return b;
+}
+void print(ll net)
+{
+   printf("The shortest path has length %lld\n",net);  
+}
+ll tsp(vector<ll>subset,ll info[11][11],ll dp[13][3000],ll pos)
+{
+	ll count=0,number=0,bv;
+	for(bv=1;bv<subset.size();bv++)
+	  {
+	    if(subset[bv]==0)
+	     count++;
+	    if(subset[bv]==0) 
+	     number+=pow(2,subset.size()-bv-1); 
+	  }
+	if(number==0)
+       {
+		  return dp[pos][0]=info[0][pos];
+	   }
+	if(dp[pos][number]!=-1)
+		 return dp[pos][number];
+	ll shortest=bg;
+	for(bv=1;bv<subset.size();bv++)
+	  {
+	    if(subset[bv]==0) 
+	    {
+	      vector<ll>subset2=subset;
+		  subset2[bv]=1;
+	      shortest=min(shortest,tsp(subset2,info,dp,bv)+info[bv][pos]);
+	    }
+	  }
+	return dp[pos][number]=shortest;	     
+}
+int main()
+{
+  ll t;
+  cin>>t;
+  while(t--)
+  {
+  	 ll a,b;
+  	 cin>>a>>b;
+  	 cin>>a>>b;
+  	 ll n,i,j; 
+	 cin>>n;
+  	 ll x[n+1],y[n+1];
+     vector<pair<ll,ll> >vec1;  
+     x[0]=a;
+     y[0]=b;
+	 ff(i,n)
+      gg(x[i+1],y[i+1]);
+     ll info[11][11]; 
+     for(i=0;i<n+1;i++)
+	    for(j=0;j<n+1;j++)
+		  info[i][j]=abs(x[i]-x[j])+abs(y[i]-y[j]);
+     ll dp[13][3000];
+	 for(i=0;i<13;i++)
+	   for(j=0;j<3000;j++)
+	     dp[i][j]=-1;
+	 vector<ll>subset;
+	 for(i=0;i<=n;i++)
+	   subset.pb(0);
+	 subset[0]=1;
+	 print(tsp(subset,info,dp,0));  
+	    
+  }return 0;
+}
