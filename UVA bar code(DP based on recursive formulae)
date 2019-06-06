@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define ff(i,n) for(i=0;i<n;i++)
+#define gg(n) cin>>n;
+#define hh(n) cout<<n<<endl;
+#define t top
+#define p push
+#define pb push_back
+#define mp make_pair
+ll maxi(ll a,ll b)
+{
+     if(a>b) return a;
+     else    return b;
+}
+ll bg=1234567890123;
+int main()
+{
+  ll n,m,k;
+  while(cin>>n>>k>>m)
+  {
+     ll i,j,l,f=0;
+     ll dp[n+1][k+1];
+     for(i=0;i<=n;i++)
+         for(j=0;j<=k;j++)    
+            dp[i][j]=0;  
+     for(i=1;i<=min(n,m);i++) 
+       dp[i][1]=1;
+     for(j=2;j<=k;j++)
+     {
+         for(i=1;i<=n;i++)    
+         {
+            for(l=i-1;l>=max(f,i-m);l--)
+              dp[i][j]+=dp[l][j-1];  
+         }      
+     }
+     cout<<dp[n][k]<<endl;
+  }return 0;
+}
